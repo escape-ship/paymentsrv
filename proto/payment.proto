@@ -1,0 +1,4 @@
+syntax = "proto3";
+package go.escape.ship.proto.paymentapi;
+
+option go_package = "github.com/escape-ship/paymentsrv/proto/gen";
