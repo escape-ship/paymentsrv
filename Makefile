@@ -2,6 +2,7 @@ all: build
 
 init:
 	@echo "Initializing..."
+	@go mod init github.com/escape-ship/paymentsrv
 	@$(MAKE) tool_download
 	@$(MAKE) build
 
@@ -11,9 +12,11 @@ build:
 	@go mod download
 	@$(MAKE) proto_gen
 	@$(MAKE) sqlc_gen
-	@go build -o bin/$(shell basename $(PWD)) ./cmd
+	@$(MAKE) build_alone
 
 build_alone:
+	@echo "Building alone..."
+	@$(MAKE) linter-golangci
 	@go build -o bin/$(shell basename $(PWD)) ./cmd
 
 proto_gen:
