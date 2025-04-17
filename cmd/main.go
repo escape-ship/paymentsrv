@@ -7,5 +7,5 @@ import (
 func main() {
 	app := app.NewApp()
 
-	app.Run()
+	_ = app.Run()
 }
