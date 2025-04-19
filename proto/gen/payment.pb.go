@@ -23,7 +23,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type ReadyPaymentKakaoRequest struct {
+type KakaoReadyRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	PartnerOrderId string                 `protobuf:"bytes,1,opt,name=partner_order_id,json=partnerOrderId,proto3" json:"partner_order_id,omitempty"`
 	PartnerUserId  string                 `protobuf:"bytes,2,opt,name=partner_user_id,json=partnerUserId,proto3" json:"partner_user_id,omitempty"`
@@ -35,20 +35,20 @@ type ReadyPaymentKakaoRequest struct {
 	sizeCache      protoimpl.SizeCache
 }
 
-func (x *ReadyPaymentKakaoRequest) Reset() {
-	*x = ReadyPaymentKakaoRequest{}
+func (x *KakaoReadyRequest) Reset() {
+	*x = KakaoReadyRequest{}
 	mi := &file_payment_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ReadyPaymentKakaoRequest) String() string {
+func (x *KakaoReadyRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ReadyPaymentKakaoRequest) ProtoMessage() {}
+func (*KakaoReadyRequest) ProtoMessage() {}
 
-func (x *ReadyPaymentKakaoRequest) ProtoReflect() protoreflect.Message {
+func (x *KakaoReadyRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_payment_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -60,54 +60,54 @@ func (x *ReadyPaymentKakaoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReadyPaymentKakaoRequest.ProtoReflect.Descriptor instead.
-func (*ReadyPaymentKakaoRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use KakaoReadyRequest.ProtoReflect.Descriptor instead.
+func (*KakaoReadyRequest) Descriptor() ([]byte, []int) {
 	return file_payment_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *ReadyPaymentKakaoRequest) GetPartnerOrderId() string {
+func (x *KakaoReadyRequest) GetPartnerOrderId() string {
 	if x != nil {
 		return x.PartnerOrderId
 	}
 	return ""
 }
 
-func (x *ReadyPaymentKakaoRequest) GetPartnerUserId() string {
+func (x *KakaoReadyRequest) GetPartnerUserId() string {
 	if x != nil {
 		return x.PartnerUserId
 	}
 	return ""
 }
 
-func (x *ReadyPaymentKakaoRequest) GetItemName() string {
+func (x *KakaoReadyRequest) GetItemName() string {
 	if x != nil {
 		return x.ItemName
 	}
 	return ""
 }
 
-func (x *ReadyPaymentKakaoRequest) GetQuantity() int32 {
+func (x *KakaoReadyRequest) GetQuantity() int32 {
 	if x != nil {
 		return x.Quantity
 	}
 	return 0
 }
 
-func (x *ReadyPaymentKakaoRequest) GetTotalAmount() int64 {
+func (x *KakaoReadyRequest) GetTotalAmount() int64 {
 	if x != nil {
 		return x.TotalAmount
 	}
 	return 0
 }
 
-func (x *ReadyPaymentKakaoRequest) GetTaxFreeAmount() int64 {
+func (x *KakaoReadyRequest) GetTaxFreeAmount() int64 {
 	if x != nil {
 		return x.TaxFreeAmount
 	}
 	return 0
 }
 
-type ReadyPaymentKakaoResponse struct {
+type KakaoReadyResponse struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	NextRedirectAppUrl    string                 `protobuf:"bytes,1,opt,name=next_redirect_app_url,json=nextRedirectAppUrl,proto3" json:"next_redirect_app_url,omitempty"`
 	NextRedirectMobileUrl string                 `protobuf:"bytes,2,opt,name=next_redirect_mobile_url,json=nextRedirectMobileUrl,proto3" json:"next_redirect_mobile_url,omitempty"`
@@ -118,20 +118,20 @@ type ReadyPaymentKakaoResponse struct {
 	sizeCache             protoimpl.SizeCache
 }
 
-func (x *ReadyPaymentKakaoResponse) Reset() {
-	*x = ReadyPaymentKakaoResponse{}
+func (x *KakaoReadyResponse) Reset() {
+	*x = KakaoReadyResponse{}
 	mi := &file_payment_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ReadyPaymentKakaoResponse) String() string {
+func (x *KakaoReadyResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ReadyPaymentKakaoResponse) ProtoMessage() {}
+func (*KakaoReadyResponse) ProtoMessage() {}
 
-func (x *ReadyPaymentKakaoResponse) ProtoReflect() protoreflect.Message {
+func (x *KakaoReadyResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_payment_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -143,47 +143,47 @@ func (x *ReadyPaymentKakaoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ReadyPaymentKakaoResponse.ProtoReflect.Descriptor instead.
-func (*ReadyPaymentKakaoResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use KakaoReadyResponse.ProtoReflect.Descriptor instead.
+func (*KakaoReadyResponse) Descriptor() ([]byte, []int) {
 	return file_payment_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *ReadyPaymentKakaoResponse) GetNextRedirectAppUrl() string {
+func (x *KakaoReadyResponse) GetNextRedirectAppUrl() string {
 	if x != nil {
 		return x.NextRedirectAppUrl
 	}
 	return ""
 }
 
-func (x *ReadyPaymentKakaoResponse) GetNextRedirectMobileUrl() string {
+func (x *KakaoReadyResponse) GetNextRedirectMobileUrl() string {
 	if x != nil {
 		return x.NextRedirectMobileUrl
 	}
 	return ""
 }
 
-func (x *ReadyPaymentKakaoResponse) GetNextRedirectPcUrl() string {
+func (x *KakaoReadyResponse) GetNextRedirectPcUrl() string {
 	if x != nil {
 		return x.NextRedirectPcUrl
 	}
 	return ""
 }
 
-func (x *ReadyPaymentKakaoResponse) GetAndroidAppScheme() string {
+func (x *KakaoReadyResponse) GetAndroidAppScheme() string {
 	if x != nil {
 		return x.AndroidAppScheme
 	}
 	return ""
 }
 
-func (x *ReadyPaymentKakaoResponse) GetIosAppScheme() string {
+func (x *KakaoReadyResponse) GetIosAppScheme() string {
 	if x != nil {
 		return x.IosAppScheme
 	}
 	return ""
 }
 
-type ApprovePaymentKakaoRequest struct {
+type KakaoApproveRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	PgToken       string                 `protobuf:"bytes,2,opt,name=pg_token,json=pgToken,proto3" json:"pg_token,omitempty"`
@@ -191,20 +191,20 @@ type ApprovePaymentKakaoRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ApprovePaymentKakaoRequest) Reset() {
-	*x = ApprovePaymentKakaoRequest{}
+func (x *KakaoApproveRequest) Reset() {
+	*x = KakaoApproveRequest{}
 	mi := &file_payment_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ApprovePaymentKakaoRequest) String() string {
+func (x *KakaoApproveRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ApprovePaymentKakaoRequest) ProtoMessage() {}
+func (*KakaoApproveRequest) ProtoMessage() {}
 
-func (x *ApprovePaymentKakaoRequest) ProtoReflect() protoreflect.Message {
+func (x *KakaoApproveRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_payment_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -216,46 +216,46 @@ func (x *ApprovePaymentKakaoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ApprovePaymentKakaoRequest.ProtoReflect.Descriptor instead.
-func (*ApprovePaymentKakaoRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use KakaoApproveRequest.ProtoReflect.Descriptor instead.
+func (*KakaoApproveRequest) Descriptor() ([]byte, []int) {
 	return file_payment_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ApprovePaymentKakaoRequest) GetOrderId() string {
+func (x *KakaoApproveRequest) GetOrderId() string {
 	if x != nil {
 		return x.OrderId
 	}
 	return ""
 }
 
-func (x *ApprovePaymentKakaoRequest) GetPgToken() string {
+func (x *KakaoApproveRequest) GetPgToken() string {
 	if x != nil {
 		return x.PgToken
 	}
 	return ""
 }
 
-type ApprovePaymentKakaoResponse struct {
+type KakaoApproveResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ApprovePaymentKakaoResponse) Reset() {
-	*x = ApprovePaymentKakaoResponse{}
+func (x *KakaoApproveResponse) Reset() {
+	*x = KakaoApproveResponse{}
 	mi := &file_payment_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ApprovePaymentKakaoResponse) String() string {
+func (x *KakaoApproveResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ApprovePaymentKakaoResponse) ProtoMessage() {}
+func (*KakaoApproveResponse) ProtoMessage() {}
 
-func (x *ApprovePaymentKakaoResponse) ProtoReflect() protoreflect.Message {
+func (x *KakaoApproveResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_payment_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -267,19 +267,19 @@ func (x *ApprovePaymentKakaoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ApprovePaymentKakaoResponse.ProtoReflect.Descriptor instead.
-func (*ApprovePaymentKakaoResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use KakaoApproveResponse.ProtoReflect.Descriptor instead.
+func (*KakaoApproveResponse) Descriptor() ([]byte, []int) {
 	return file_payment_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *ApprovePaymentKakaoResponse) GetOrderId() string {
+func (x *KakaoApproveResponse) GetOrderId() string {
 	if x != nil {
 		return x.OrderId
 	}
 	return ""
 }
 
-type CancelPaymentKakaoRequest struct {
+type KakaoCancelRequest struct {
 	state                 protoimpl.MessageState `protogen:"open.v1"`
 	OrderId               string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	CancelAmount          string                 `protobuf:"bytes,2,opt,name=cancel_amount,json=cancelAmount,proto3" json:"cancel_amount,omitempty"`
@@ -290,20 +290,20 @@ type CancelPaymentKakaoRequest struct {
 	sizeCache             protoimpl.SizeCache
 }
 
-func (x *CancelPaymentKakaoRequest) Reset() {
-	*x = CancelPaymentKakaoRequest{}
+func (x *KakaoCancelRequest) Reset() {
+	*x = KakaoCancelRequest{}
 	mi := &file_payment_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CancelPaymentKakaoRequest) String() string {
+func (x *KakaoCancelRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CancelPaymentKakaoRequest) ProtoMessage() {}
+func (*KakaoCancelRequest) ProtoMessage() {}
 
-func (x *CancelPaymentKakaoRequest) ProtoReflect() protoreflect.Message {
+func (x *KakaoCancelRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_payment_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -315,67 +315,67 @@ func (x *CancelPaymentKakaoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelPaymentKakaoRequest.ProtoReflect.Descriptor instead.
-func (*CancelPaymentKakaoRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use KakaoCancelRequest.ProtoReflect.Descriptor instead.
+func (*KakaoCancelRequest) Descriptor() ([]byte, []int) {
 	return file_payment_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CancelPaymentKakaoRequest) GetOrderId() string {
+func (x *KakaoCancelRequest) GetOrderId() string {
 	if x != nil {
 		return x.OrderId
 	}
 	return ""
 }
 
-func (x *CancelPaymentKakaoRequest) GetCancelAmount() string {
+func (x *KakaoCancelRequest) GetCancelAmount() string {
 	if x != nil {
 		return x.CancelAmount
 	}
 	return ""
 }
 
-func (x *CancelPaymentKakaoRequest) GetCancelTaxFreeAmount() int64 {
+func (x *KakaoCancelRequest) GetCancelTaxFreeAmount() int64 {
 	if x != nil {
 		return x.CancelTaxFreeAmount
 	}
 	return 0
 }
 
-func (x *CancelPaymentKakaoRequest) GetCancelVatAmount() int64 {
+func (x *KakaoCancelRequest) GetCancelVatAmount() int64 {
 	if x != nil {
 		return x.CancelVatAmount
 	}
 	return 0
 }
 
-func (x *CancelPaymentKakaoRequest) GetCancelAvailableAmount() int64 {
+func (x *KakaoCancelRequest) GetCancelAvailableAmount() int64 {
 	if x != nil {
 		return x.CancelAvailableAmount
 	}
 	return 0
 }
 
-type CancelPaymentKakaoResponse struct {
+type KakaoCancelResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	OrderId       string                 `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CancelPaymentKakaoResponse) Reset() {
-	*x = CancelPaymentKakaoResponse{}
+func (x *KakaoCancelResponse) Reset() {
+	*x = KakaoCancelResponse{}
 	mi := &file_payment_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CancelPaymentKakaoResponse) String() string {
+func (x *KakaoCancelResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CancelPaymentKakaoResponse) ProtoMessage() {}
+func (*KakaoCancelResponse) ProtoMessage() {}
 
-func (x *CancelPaymentKakaoResponse) ProtoReflect() protoreflect.Message {
+func (x *KakaoCancelResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_payment_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -387,12 +387,12 @@ func (x *CancelPaymentKakaoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CancelPaymentKakaoResponse.ProtoReflect.Descriptor instead.
-func (*CancelPaymentKakaoResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use KakaoCancelResponse.ProtoReflect.Descriptor instead.
+func (*KakaoCancelResponse) Descriptor() ([]byte, []int) {
 	return file_payment_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *CancelPaymentKakaoResponse) GetOrderId() string {
+func (x *KakaoCancelResponse) GetOrderId() string {
 	if x != nil {
 		return x.OrderId
 	}
@@ -403,39 +403,40 @@ var File_payment_proto protoreflect.FileDescriptor
 
 const file_payment_proto_rawDesc = "" +
 	"\n" +
-	"\rpayment.proto\x12\x1fgo.escape.ship.proto.paymentapi\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xf0\x01\n" +
-	"\x18ReadyPaymentKakaoRequest\x12(\n" +
+	"\rpayment.proto\x12\"go.escape.ship.proto.paymentapi.v1\x1a\x1cgoogle/api/annotations.proto\x1a.protoc-gen-openapiv2/options/annotations.proto\"\xe9\x01\n" +
+	"\x11KakaoReadyRequest\x12(\n" +
 	"\x10partner_order_id\x18\x01 \x01(\tR\x0epartnerOrderId\x12&\n" +
 	"\x0fpartner_user_id\x18\x02 \x01(\tR\rpartnerUserId\x12\x1b\n" +
 	"\titem_name\x18\x03 \x01(\tR\bitemName\x12\x1a\n" +
 	"\bquantity\x18\x04 \x01(\x05R\bquantity\x12!\n" +
 	"\ftotal_amount\x18\x05 \x01(\x03R\vtotalAmount\x12&\n" +
-	"\x0ftax_free_amount\x18\x06 \x01(\x03R\rtaxFreeAmount\"\x8c\x02\n" +
-	"\x19ReadyPaymentKakaoResponse\x121\n" +
+	"\x0ftax_free_amount\x18\x06 \x01(\x03R\rtaxFreeAmount\"\x85\x02\n" +
+	"\x12KakaoReadyResponse\x121\n" +
 	"\x15next_redirect_app_url\x18\x01 \x01(\tR\x12nextRedirectAppUrl\x127\n" +
 	"\x18next_redirect_mobile_url\x18\x02 \x01(\tR\x15nextRedirectMobileUrl\x12/\n" +
 	"\x14next_redirect_pc_url\x18\x03 \x01(\tR\x11nextRedirectPcUrl\x12,\n" +
 	"\x12android_app_scheme\x18\x04 \x01(\tR\x10androidAppScheme\x12$\n" +
-	"\x0eios_app_scheme\x18\x05 \x01(\tR\fiosAppScheme\"R\n" +
-	"\x1aApprovePaymentKakaoRequest\x12\x19\n" +
+	"\x0eios_app_scheme\x18\x05 \x01(\tR\fiosAppScheme\"K\n" +
+	"\x13KakaoApproveRequest\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12\x19\n" +
-	"\bpg_token\x18\x02 \x01(\tR\apgToken\"8\n" +
-	"\x1bApprovePaymentKakaoResponse\x12\x19\n" +
-	"\border_id\x18\x01 \x01(\tR\aorderId\"\xf4\x01\n" +
-	"\x19CancelPaymentKakaoRequest\x12\x19\n" +
+	"\bpg_token\x18\x02 \x01(\tR\apgToken\"1\n" +
+	"\x14KakaoApproveResponse\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId\"\xed\x01\n" +
+	"\x12KakaoCancelRequest\x12\x19\n" +
 	"\border_id\x18\x01 \x01(\tR\aorderId\x12#\n" +
 	"\rcancel_amount\x18\x02 \x01(\tR\fcancelAmount\x123\n" +
 	"\x16cancel_tax_free_amount\x18\x03 \x01(\x03R\x13cancelTaxFreeAmount\x12*\n" +
 	"\x11cancel_vat_amount\x18\x04 \x01(\x03R\x0fcancelVatAmount\x126\n" +
-	"\x17cancel_available_amount\x18\x05 \x01(\x03R\x15cancelAvailableAmount\"7\n" +
-	"\x1aCancelPaymentKakaoResponse\x12\x19\n" +
-	"\border_id\x18\x01 \x01(\tR\aorderId2\xaa\x06\n" +
-	"\x13KakaoPaymentService\x12\xf9\x01\n" +
-	"\fReadyPayment\x129.go.escape.ship.proto.paymentapi.ReadyPaymentKakaoRequest\x1a:.go.escape.ship.proto.paymentapi.ReadyPaymentKakaoResponse\"r\x92AP\n" +
-	"\x0eKakao Payments\x12\x18Ready payment with Kakao\x1a$Initiate payment process with Kakao.\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/payment/kakao/ready\x12\x86\x02\n" +
-	"\x0eApprovePayment\x12;.go.escape.ship.proto.paymentapi.ApprovePaymentKakaoRequest\x1a<.go.escape.ship.proto.paymentapi.ApprovePaymentKakaoResponse\"y\x92AU\n" +
-	"\x0eKakao Payments\x12\x1aApprove payment with Kakao\x1a'Approve the payment process with Kakao.\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/payment/kakao/approve\x12\x8d\x02\n" +
-	"\rCancelPayment\x12:.go.escape.ship.proto.paymentapi.CancelPaymentKakaoRequest\x1a;.go.escape.ship.proto.paymentapi.CancelPaymentKakaoResponse\"\x82\x01\x92A_\n" +
+	"\x17cancel_available_amount\x18\x05 \x01(\x03R\x15cancelAvailableAmount\"0\n" +
+	"\x13KakaoCancelResponse\x12\x19\n" +
+	"\border_id\x18\x01 \x01(\tR\aorderId2\x87\x06\n" +
+	"\x0ePaymentService\x12\xef\x01\n" +
+	"\n" +
+	"KakaoReady\x125.go.escape.ship.proto.paymentapi.v1.KakaoReadyRequest\x1a6.go.escape.ship.proto.paymentapi.v1.KakaoReadyResponse\"r\x92AP\n" +
+	"\x0eKakao Payments\x12\x18Ready payment with Kakao\x1a$Initiate payment process with Kakao.\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/payment/kakao/ready\x12\xfc\x01\n" +
+	"\fKakaoApprove\x127.go.escape.ship.proto.paymentapi.v1.KakaoApproveRequest\x1a8.go.escape.ship.proto.paymentapi.v1.KakaoApproveResponse\"y\x92AU\n" +
+	"\x0eKakao Payments\x12\x1aApprove payment with Kakao\x1a'Approve the payment process with Kakao.\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/payment/kakao/approve\x12\x83\x02\n" +
+	"\vKakaoCancel\x126.go.escape.ship.proto.paymentapi.v1.KakaoCancelRequest\x1a7.go.escape.ship.proto.paymentapi.v1.KakaoCancelResponse\"\x82\x01\x92A_\n" +
 	"\x0eKakao Payments\x12\x19Cancel payment with Kakao\x1a2Cancel an ongoing or completed payment with Kakao.\x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/payment/kakao/cancelB-Z+github.com/escape-ship/paymentsrv/proto/genb\x06proto3"
 
 var (
@@ -452,20 +453,20 @@ func file_payment_proto_rawDescGZIP() []byte {
 
 var file_payment_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_payment_proto_goTypes = []any{
-	(*ReadyPaymentKakaoRequest)(nil),    // 0: go.escape.ship.proto.paymentapi.ReadyPaymentKakaoRequest
-	(*ReadyPaymentKakaoResponse)(nil),   // 1: go.escape.ship.proto.paymentapi.ReadyPaymentKakaoResponse
-	(*ApprovePaymentKakaoRequest)(nil),  // 2: go.escape.ship.proto.paymentapi.ApprovePaymentKakaoRequest
-	(*ApprovePaymentKakaoResponse)(nil), // 3: go.escape.ship.proto.paymentapi.ApprovePaymentKakaoResponse
-	(*CancelPaymentKakaoRequest)(nil),   // 4: go.escape.ship.proto.paymentapi.CancelPaymentKakaoRequest
-	(*CancelPaymentKakaoResponse)(nil),  // 5: go.escape.ship.proto.paymentapi.CancelPaymentKakaoResponse
+	(*KakaoReadyRequest)(nil),    // 0: go.escape.ship.proto.paymentapi.v1.KakaoReadyRequest
+	(*KakaoReadyResponse)(nil),   // 1: go.escape.ship.proto.paymentapi.v1.KakaoReadyResponse
+	(*KakaoApproveRequest)(nil),  // 2: go.escape.ship.proto.paymentapi.v1.KakaoApproveRequest
+	(*KakaoApproveResponse)(nil), // 3: go.escape.ship.proto.paymentapi.v1.KakaoApproveResponse
+	(*KakaoCancelRequest)(nil),   // 4: go.escape.ship.proto.paymentapi.v1.KakaoCancelRequest
+	(*KakaoCancelResponse)(nil),  // 5: go.escape.ship.proto.paymentapi.v1.KakaoCancelResponse
 }
 var file_payment_proto_depIdxs = []int32{
-	0, // 0: go.escape.ship.proto.paymentapi.KakaoPaymentService.ReadyPayment:input_type -> go.escape.ship.proto.paymentapi.ReadyPaymentKakaoRequest
-	2, // 1: go.escape.ship.proto.paymentapi.KakaoPaymentService.ApprovePayment:input_type -> go.escape.ship.proto.paymentapi.ApprovePaymentKakaoRequest
-	4, // 2: go.escape.ship.proto.paymentapi.KakaoPaymentService.CancelPayment:input_type -> go.escape.ship.proto.paymentapi.CancelPaymentKakaoRequest
-	1, // 3: go.escape.ship.proto.paymentapi.KakaoPaymentService.ReadyPayment:output_type -> go.escape.ship.proto.paymentapi.ReadyPaymentKakaoResponse
-	3, // 4: go.escape.ship.proto.paymentapi.KakaoPaymentService.ApprovePayment:output_type -> go.escape.ship.proto.paymentapi.ApprovePaymentKakaoResponse
-	5, // 5: go.escape.ship.proto.paymentapi.KakaoPaymentService.CancelPayment:output_type -> go.escape.ship.proto.paymentapi.CancelPaymentKakaoResponse
+	0, // 0: go.escape.ship.proto.paymentapi.v1.PaymentService.KakaoReady:input_type -> go.escape.ship.proto.paymentapi.v1.KakaoReadyRequest
+	2, // 1: go.escape.ship.proto.paymentapi.v1.PaymentService.KakaoApprove:input_type -> go.escape.ship.proto.paymentapi.v1.KakaoApproveRequest
+	4, // 2: go.escape.ship.proto.paymentapi.v1.PaymentService.KakaoCancel:input_type -> go.escape.ship.proto.paymentapi.v1.KakaoCancelRequest
+	1, // 3: go.escape.ship.proto.paymentapi.v1.PaymentService.KakaoReady:output_type -> go.escape.ship.proto.paymentapi.v1.KakaoReadyResponse
+	3, // 4: go.escape.ship.proto.paymentapi.v1.PaymentService.KakaoApprove:output_type -> go.escape.ship.proto.paymentapi.v1.KakaoApproveResponse
+	5, // 5: go.escape.ship.proto.paymentapi.v1.PaymentService.KakaoCancel:output_type -> go.escape.ship.proto.paymentapi.v1.KakaoCancelResponse
 	3, // [3:6] is the sub-list for method output_type
 	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

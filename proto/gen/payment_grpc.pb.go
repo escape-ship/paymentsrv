@@ -19,181 +19,181 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	KakaoPaymentService_ReadyPayment_FullMethodName   = "/go.escape.ship.proto.paymentapi.KakaoPaymentService/ReadyPayment"
-	KakaoPaymentService_ApprovePayment_FullMethodName = "/go.escape.ship.proto.paymentapi.KakaoPaymentService/ApprovePayment"
-	KakaoPaymentService_CancelPayment_FullMethodName  = "/go.escape.ship.proto.paymentapi.KakaoPaymentService/CancelPayment"
+	PaymentService_KakaoReady_FullMethodName   = "/go.escape.ship.proto.paymentapi.v1.PaymentService/KakaoReady"
+	PaymentService_KakaoApprove_FullMethodName = "/go.escape.ship.proto.paymentapi.v1.PaymentService/KakaoApprove"
+	PaymentService_KakaoCancel_FullMethodName  = "/go.escape.ship.proto.paymentapi.v1.PaymentService/KakaoCancel"
 )
 
-// KakaoPaymentServiceClient is the client API for KakaoPaymentService service.
+// PaymentServiceClient is the client API for PaymentService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // Kakao Payment Service
-type KakaoPaymentServiceClient interface {
-	ReadyPayment(ctx context.Context, in *ReadyPaymentKakaoRequest, opts ...grpc.CallOption) (*ReadyPaymentKakaoResponse, error)
-	ApprovePayment(ctx context.Context, in *ApprovePaymentKakaoRequest, opts ...grpc.CallOption) (*ApprovePaymentKakaoResponse, error)
-	CancelPayment(ctx context.Context, in *CancelPaymentKakaoRequest, opts ...grpc.CallOption) (*CancelPaymentKakaoResponse, error)
+type PaymentServiceClient interface {
+	KakaoReady(ctx context.Context, in *KakaoReadyRequest, opts ...grpc.CallOption) (*KakaoReadyResponse, error)
+	KakaoApprove(ctx context.Context, in *KakaoApproveRequest, opts ...grpc.CallOption) (*KakaoApproveResponse, error)
+	KakaoCancel(ctx context.Context, in *KakaoCancelRequest, opts ...grpc.CallOption) (*KakaoCancelResponse, error)
 }
 
-type kakaoPaymentServiceClient struct {
+type paymentServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewKakaoPaymentServiceClient(cc grpc.ClientConnInterface) KakaoPaymentServiceClient {
-	return &kakaoPaymentServiceClient{cc}
+func NewPaymentServiceClient(cc grpc.ClientConnInterface) PaymentServiceClient {
+	return &paymentServiceClient{cc}
 }
 
-func (c *kakaoPaymentServiceClient) ReadyPayment(ctx context.Context, in *ReadyPaymentKakaoRequest, opts ...grpc.CallOption) (*ReadyPaymentKakaoResponse, error) {
+func (c *paymentServiceClient) KakaoReady(ctx context.Context, in *KakaoReadyRequest, opts ...grpc.CallOption) (*KakaoReadyResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ReadyPaymentKakaoResponse)
-	err := c.cc.Invoke(ctx, KakaoPaymentService_ReadyPayment_FullMethodName, in, out, cOpts...)
+	out := new(KakaoReadyResponse)
+	err := c.cc.Invoke(ctx, PaymentService_KakaoReady_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *kakaoPaymentServiceClient) ApprovePayment(ctx context.Context, in *ApprovePaymentKakaoRequest, opts ...grpc.CallOption) (*ApprovePaymentKakaoResponse, error) {
+func (c *paymentServiceClient) KakaoApprove(ctx context.Context, in *KakaoApproveRequest, opts ...grpc.CallOption) (*KakaoApproveResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(ApprovePaymentKakaoResponse)
-	err := c.cc.Invoke(ctx, KakaoPaymentService_ApprovePayment_FullMethodName, in, out, cOpts...)
+	out := new(KakaoApproveResponse)
+	err := c.cc.Invoke(ctx, PaymentService_KakaoApprove_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *kakaoPaymentServiceClient) CancelPayment(ctx context.Context, in *CancelPaymentKakaoRequest, opts ...grpc.CallOption) (*CancelPaymentKakaoResponse, error) {
+func (c *paymentServiceClient) KakaoCancel(ctx context.Context, in *KakaoCancelRequest, opts ...grpc.CallOption) (*KakaoCancelResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CancelPaymentKakaoResponse)
-	err := c.cc.Invoke(ctx, KakaoPaymentService_CancelPayment_FullMethodName, in, out, cOpts...)
+	out := new(KakaoCancelResponse)
+	err := c.cc.Invoke(ctx, PaymentService_KakaoCancel_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// KakaoPaymentServiceServer is the server API for KakaoPaymentService service.
-// All implementations must embed UnimplementedKakaoPaymentServiceServer
+// PaymentServiceServer is the server API for PaymentService service.
+// All implementations must embed UnimplementedPaymentServiceServer
 // for forward compatibility.
 //
 // Kakao Payment Service
-type KakaoPaymentServiceServer interface {
-	ReadyPayment(context.Context, *ReadyPaymentKakaoRequest) (*ReadyPaymentKakaoResponse, error)
-	ApprovePayment(context.Context, *ApprovePaymentKakaoRequest) (*ApprovePaymentKakaoResponse, error)
-	CancelPayment(context.Context, *CancelPaymentKakaoRequest) (*CancelPaymentKakaoResponse, error)
-	mustEmbedUnimplementedKakaoPaymentServiceServer()
+type PaymentServiceServer interface {
+	KakaoReady(context.Context, *KakaoReadyRequest) (*KakaoReadyResponse, error)
+	KakaoApprove(context.Context, *KakaoApproveRequest) (*KakaoApproveResponse, error)
+	KakaoCancel(context.Context, *KakaoCancelRequest) (*KakaoCancelResponse, error)
+	mustEmbedUnimplementedPaymentServiceServer()
 }
 
-// UnimplementedKakaoPaymentServiceServer must be embedded to have
+// UnimplementedPaymentServiceServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedKakaoPaymentServiceServer struct{}
+type UnimplementedPaymentServiceServer struct{}
 
-func (UnimplementedKakaoPaymentServiceServer) ReadyPayment(context.Context, *ReadyPaymentKakaoRequest) (*ReadyPaymentKakaoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ReadyPayment not implemented")
+func (UnimplementedPaymentServiceServer) KakaoReady(context.Context, *KakaoReadyRequest) (*KakaoReadyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method KakaoReady not implemented")
 }
-func (UnimplementedKakaoPaymentServiceServer) ApprovePayment(context.Context, *ApprovePaymentKakaoRequest) (*ApprovePaymentKakaoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ApprovePayment not implemented")
+func (UnimplementedPaymentServiceServer) KakaoApprove(context.Context, *KakaoApproveRequest) (*KakaoApproveResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method KakaoApprove not implemented")
 }
-func (UnimplementedKakaoPaymentServiceServer) CancelPayment(context.Context, *CancelPaymentKakaoRequest) (*CancelPaymentKakaoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CancelPayment not implemented")
+func (UnimplementedPaymentServiceServer) KakaoCancel(context.Context, *KakaoCancelRequest) (*KakaoCancelResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method KakaoCancel not implemented")
 }
-func (UnimplementedKakaoPaymentServiceServer) mustEmbedUnimplementedKakaoPaymentServiceServer() {}
-func (UnimplementedKakaoPaymentServiceServer) testEmbeddedByValue()                             {}
+func (UnimplementedPaymentServiceServer) mustEmbedUnimplementedPaymentServiceServer() {}
+func (UnimplementedPaymentServiceServer) testEmbeddedByValue()                        {}
 
-// UnsafeKakaoPaymentServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to KakaoPaymentServiceServer will
+// UnsafePaymentServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PaymentServiceServer will
 // result in compilation errors.
-type UnsafeKakaoPaymentServiceServer interface {
-	mustEmbedUnimplementedKakaoPaymentServiceServer()
+type UnsafePaymentServiceServer interface {
+	mustEmbedUnimplementedPaymentServiceServer()
 }
 
-func RegisterKakaoPaymentServiceServer(s grpc.ServiceRegistrar, srv KakaoPaymentServiceServer) {
-	// If the following call pancis, it indicates UnimplementedKakaoPaymentServiceServer was
+func RegisterPaymentServiceServer(s grpc.ServiceRegistrar, srv PaymentServiceServer) {
+	// If the following call pancis, it indicates UnimplementedPaymentServiceServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&KakaoPaymentService_ServiceDesc, srv)
+	s.RegisterService(&PaymentService_ServiceDesc, srv)
 }
 
-func _KakaoPaymentService_ReadyPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ReadyPaymentKakaoRequest)
+func _PaymentService_KakaoReady_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KakaoReadyRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KakaoPaymentServiceServer).ReadyPayment(ctx, in)
+		return srv.(PaymentServiceServer).KakaoReady(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: KakaoPaymentService_ReadyPayment_FullMethodName,
+		FullMethod: PaymentService_KakaoReady_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KakaoPaymentServiceServer).ReadyPayment(ctx, req.(*ReadyPaymentKakaoRequest))
+		return srv.(PaymentServiceServer).KakaoReady(ctx, req.(*KakaoReadyRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KakaoPaymentService_ApprovePayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ApprovePaymentKakaoRequest)
+func _PaymentService_KakaoApprove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KakaoApproveRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KakaoPaymentServiceServer).ApprovePayment(ctx, in)
+		return srv.(PaymentServiceServer).KakaoApprove(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: KakaoPaymentService_ApprovePayment_FullMethodName,
+		FullMethod: PaymentService_KakaoApprove_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KakaoPaymentServiceServer).ApprovePayment(ctx, req.(*ApprovePaymentKakaoRequest))
+		return srv.(PaymentServiceServer).KakaoApprove(ctx, req.(*KakaoApproveRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KakaoPaymentService_CancelPayment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CancelPaymentKakaoRequest)
+func _PaymentService_KakaoCancel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KakaoCancelRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(KakaoPaymentServiceServer).CancelPayment(ctx, in)
+		return srv.(PaymentServiceServer).KakaoCancel(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: KakaoPaymentService_CancelPayment_FullMethodName,
+		FullMethod: PaymentService_KakaoCancel_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(KakaoPaymentServiceServer).CancelPayment(ctx, req.(*CancelPaymentKakaoRequest))
+		return srv.(PaymentServiceServer).KakaoCancel(ctx, req.(*KakaoCancelRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// KakaoPaymentService_ServiceDesc is the grpc.ServiceDesc for KakaoPaymentService service.
+// PaymentService_ServiceDesc is the grpc.ServiceDesc for PaymentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var KakaoPaymentService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "go.escape.ship.proto.paymentapi.KakaoPaymentService",
-	HandlerType: (*KakaoPaymentServiceServer)(nil),
+var PaymentService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "go.escape.ship.proto.paymentapi.v1.PaymentService",
+	HandlerType: (*PaymentServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "ReadyPayment",
-			Handler:    _KakaoPaymentService_ReadyPayment_Handler,
+			MethodName: "KakaoReady",
+			Handler:    _PaymentService_KakaoReady_Handler,
 		},
 		{
-			MethodName: "ApprovePayment",
-			Handler:    _KakaoPaymentService_ApprovePayment_Handler,
+			MethodName: "KakaoApprove",
+			Handler:    _PaymentService_KakaoApprove_Handler,
 		},
 		{
-			MethodName: "CancelPayment",
-			Handler:    _KakaoPaymentService_CancelPayment_Handler,
+			MethodName: "KakaoCancel",
+			Handler:    _PaymentService_KakaoCancel_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

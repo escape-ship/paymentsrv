@@ -1,5 +1,5 @@
 syntax = "proto3";
-package go.escape.ship.proto.paymentapi;
+package go.escape.ship.proto.paymentapi.v1;
 
 import "google/api/annotations.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
@@ -7,8 +7,8 @@ import "protoc-gen-openapiv2/options/annotations.proto";
 option go_package = "github.com/escape-ship/paymentsrv/proto/gen";
 
 // Kakao Payment Service
-service KakaoPaymentService {
-    rpc ReadyPayment(ReadyPaymentKakaoRequest) returns (ReadyPaymentKakaoResponse) {
+service PaymentService {
+    rpc KakaoReady(KakaoReadyRequest) returns (KakaoReadyResponse) {
         option (google.api.http) = {
         post: "/payment/kakao/ready"
         body: "*"
@@ -20,7 +20,7 @@ service KakaoPaymentService {
         };
     }
 
-    rpc ApprovePayment(ApprovePaymentKakaoRequest) returns (ApprovePaymentKakaoResponse) {
+    rpc KakaoApprove(KakaoApproveRequest) returns (KakaoApproveResponse) {
         option (google.api.http) = {
         post: "/payment/kakao/approve"
         body: "*"
@@ -32,7 +32,7 @@ service KakaoPaymentService {
         };
     }
 
-    rpc CancelPayment(CancelPaymentKakaoRequest) returns (CancelPaymentKakaoResponse) {
+    rpc KakaoCancel(KakaoCancelRequest) returns (KakaoCancelResponse) {
         option (google.api.http) = {
         post: "/payment/kakao/cancel"
         body: "*"
@@ -45,7 +45,7 @@ service KakaoPaymentService {
     }
 }
 
-message ReadyPaymentKakaoRequest {
+message KakaoReadyRequest {
     string partner_order_id = 1;
     string partner_user_id = 2;
     string item_name = 3;
@@ -53,7 +53,7 @@ message ReadyPaymentKakaoRequest {
     int64 total_amount = 5;
     int64 tax_free_amount = 6;
 }
-message ReadyPaymentKakaoResponse {
+message KakaoReadyResponse {
     string next_redirect_app_url = 1;
     string next_redirect_mobile_url = 2;
     string next_redirect_pc_url = 3;
@@ -61,21 +61,21 @@ message ReadyPaymentKakaoResponse {
     string ios_app_scheme = 5;
 }
 
-message ApprovePaymentKakaoRequest {
+message KakaoApproveRequest {
     string order_id = 1;
     string pg_token = 2;
 }
-message ApprovePaymentKakaoResponse {
+message KakaoApproveResponse {
     string order_id = 1;
 }
 
-message CancelPaymentKakaoRequest {
+message KakaoCancelRequest {
     string order_id = 1;
     string cancel_amount = 2;
     int64 cancel_tax_free_amount = 3;
     int64 cancel_vat_amount = 4;
-    int64 cancel_available_amount = 5; 
+    int64 cancel_available_amount = 5;
 }
-message CancelPaymentKakaoResponse {
+message KakaoCancelResponse {
     string order_id = 1;
 }
