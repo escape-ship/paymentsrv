@@ -2,14 +2,12 @@ all: build
 
 init:
 	@echo "Initializing..."
-	@go mod init github.com/escape-ship/paymentsrv
 	@$(MAKE) tool_download
 	@$(MAKE) build
 
 build:
 	@echo "Building..."
 	@go mod tidy
-	@go mod download
 	@$(MAKE) proto_gen
 	@$(MAKE) sqlc_gen
 	@$(MAKE) build_alone
@@ -29,23 +27,18 @@ sqlc_gen:
 	@echo "Generating sqlc..."
 	@sqlc generate -f internal/infras/sqlc/sqlc.yaml
 
+tool_update:
+	@echo "Updating tools..."
+	@go get -modfile=tools.mod -tool github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway@latest
+	@go get -modfile=tools.mod -tool github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest
+	@go get -modfile=tools.mod -tool google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@go get -modfile=tools.mod -tool google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	@go get -modfile=tools.mod -tool github.com/bufbuild/buf/cmd/buf@latest
+	@go get -modfile=tools.mod -tool github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+
 tool_download:
-	$(MAKE) protoc_download
-	$(MAKE) buf_download
-	$(MAKE) sqlc_download
-
-protoc_download:
-	@echo "Downloading protoc..."
-	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-
-sqlc_download:
-	@echo "Downloading sqlc..."
-	@go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
-
-buf_download:
-	@echo "Downloading buf..."
-	@go install github.com/bufbuild/buf/cmd/buf@latest
+	@echo "Downloading tools..."
+	@go install -modfile=tools.mod tool
 
 run:
 	@echo "Running..."
