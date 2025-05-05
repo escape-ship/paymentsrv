@@ -15,7 +15,7 @@ const (
 	_defaultAttempts = 5
 	_defaultTimeout  = time.Second
 	_migrationPath   = "db/migrations"
-	_dbURL           = "postgres://testuser:testpassword@localhost:5432/escape?sslmode=disable"
+	_dbURL           = "postgres://testuser:testpassword@0.0.0.0:5432/escape?sslmode=disable&search_path=payments"
 )
 
 func init() {
@@ -36,11 +36,13 @@ func init() {
 	}
 	if err != nil {
 		slog.Error("Migrate: postgres connect error", "error", err)
+		return
 	}
 	err = m.Up()
 	defer m.Close()
 	if err != nil && !errors.Is(err, migrate.ErrNoChange) {
 		slog.Error("Migrate: up error", "error", err)
+		return
 	}
 	if errors.Is(err, migrate.ErrNoChange) {
 		slog.Info("Migrate: no change")

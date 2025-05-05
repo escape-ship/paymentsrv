@@ -8,6 +8,7 @@ init:
 build:
 	@echo "Building..."
 	@go mod tidy
+	@$(MAKE) tool_update
 	@$(MAKE) proto_gen
 	@$(MAKE) sqlc_gen
 	@$(MAKE) build_alone
