@@ -6,18 +6,19 @@ package postgresql
 
 import (
 	"database/sql"
-
-	"github.com/google/uuid"
 )
 
-type PaymentsPayment struct {
-	TransactionID uuid.UUID    `json:"transaction_id"`
-	Status        string       `json:"status"`
-	OrderID       string       `json:"order_id"`
-	UserID        string       `json:"user_id"`
-	ItemName      string       `json:"item_name"`
-	ItemQuantity  int32        `json:"item_quantity"`
-	TotalAmount   int32        `json:"total_amount"`
-	RequestedAt   sql.NullTime `json:"requested_at"`
-	ApprovedAt    sql.NullTime `json:"approved_at"`
+type PaymentsrvKakao struct {
+	Tid            string         `json:"tid"`
+	Status         string         `json:"status"`
+	Aid            sql.NullString `json:"aid"`
+	PartnerOrderID string         `json:"partner_order_id"`
+	PartnerUserID  string         `json:"partner_user_id"`
+	ItemName       string         `json:"item_name"`
+	Quantity       int32          `json:"quantity"`
+	TotalAmount    int64          `json:"total_amount"`
+	TaxFreeAmount  int64          `json:"tax_free_amount"`
+	CreatedAt      sql.NullTime   `json:"created_at"`
+	UpdateAt       sql.NullTime   `json:"update_at"`
+	ApprovedAt     sql.NullTime   `json:"approved_at"`
 }

@@ -4,7 +4,6 @@ go 1.24.2
 
 require (
 	github.com/golang-migrate/migrate/v4 v4.18.2
-	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3
 	github.com/spf13/viper v1.20.1
 	google.golang.org/genproto/googleapis/api v0.0.0-20250414145226-207652e42e2e

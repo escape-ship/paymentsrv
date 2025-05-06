@@ -1,3 +1,5 @@
+//go:build migrate
+
 package app
 
 import (
@@ -15,7 +17,7 @@ const (
 	_defaultAttempts = 5
 	_defaultTimeout  = time.Second
 	_migrationPath   = "db/migrations"
-	_dbURL           = "postgres://testuser:testpassword@0.0.0.0:5432/escape?sslmode=disable&search_path=payments"
+	_dbURL           = "postgres://testuser:testpassword@0.0.0.0:5432/escape?sslmode=disable&x-migrations-table=paymentsrv_schema_migrations"
 )
 
 func init() {

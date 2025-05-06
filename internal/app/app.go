@@ -9,39 +9,29 @@ import (
 	"time"
 
 	"github.com/escape-ship/paymentsrv/config"
+	"github.com/escape-ship/paymentsrv/internal/service"
+	"github.com/escape-ship/paymentsrv/pkg/postgres"
+	pb "github.com/escape-ship/paymentsrv/proto/gen"
 	"google.golang.org/grpc"
 )
 
 type App struct {
-	cfg  *config.Config
-	ctx  context.Context
-	done chan struct{}
+	cfg *config.Config
+	pg  postgres.DBEngine
 }
 
-func New(cfg *config.Config, ctx context.Context) *App {
+func New(cfg *config.Config, pg postgres.DBEngine) *App {
 	return &App{
-		cfg:  cfg,
-		ctx:  ctx,
-		done: make(chan struct{}),
+		cfg: cfg,
+		pg:  pg,
 	}
 }
 
-func (a *App) Run() error {
+func (a *App) Run(ctx context.Context, logger *slog.Logger) error {
 	server := grpc.NewServer()
 
-	// Graceful shutdown handler
-	go func() {
-		<-a.ctx.Done()
-		slog.Info("App: initiating graceful shutdown")
-		timer := time.AfterFunc(10*time.Second, func() {
-			slog.Warn("Server couldn't stop gracefully in time. Doing force stop.")
-			server.Stop()
-		})
-		defer timer.Stop()
-		server.GracefulStop()
-		slog.Info("App: completed graceful shutdown")
-		close(a.done)
-	}()
+	// Register Services
+	pb.RegisterPaymentServiceServer(server, service.NewPaymentServer(a.cfg, a.pg))
 
 	host := a.cfg.App.Host
 	port := a.cfg.App.Port
@@ -51,18 +41,29 @@ func (a *App) Run() error {
 		return fmt.Errorf("failed to listen on %s: %v", address, err)
 	}
 
-	slog.Info("App: listening on", "address", address)
-	if err := server.Serve(l); err != nil {
-		if err != grpc.ErrServerStopped {
-			slog.Error("App: serve error", "error", err)
-			return fmt.Errorf("failed to serve: %v", err)
+	logger.Info("App: listening on", "address", address)
+
+	// Run server in a separate goroutine
+	go func() {
+		if err := server.Serve(l); err != nil {
+			if err != grpc.ErrServerStopped {
+				logger.Error("App: serve error", "error", err)
+			}
 		}
-	}
+	}()
+
+	// Wait for context cancellation
+	<-ctx.Done()
+	logger.Info("App: initiating graceful shutdown")
+
+	timer := time.AfterFunc(10*time.Second, func() {
+		logger.Warn("Server couldn't stop gracefully in time. Doing force stop.")
+		server.Stop()
+	})
+	defer timer.Stop()
+
+	server.GracefulStop()
+	logger.Info("App: completed graceful shutdown")
 
 	return nil
-}
-
-// Done returns a channel that is closed when the app has completed shutdown
-func (a *App) Done() <-chan struct{} {
-	return a.done
 }

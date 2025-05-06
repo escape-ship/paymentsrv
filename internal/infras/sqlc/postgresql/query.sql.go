@@ -7,136 +7,145 @@ package postgresql
 
 import (
 	"context"
-
-	"github.com/google/uuid"
+	"database/sql"
 )
 
-const approveRequest = `-- name: ApproveRequest :exec
+const createKakao = `-- name: CreateKakao :one
 
-UPDATE "payments".payment
-SET
-    approved_at = NOW()
-WHERE transaction_id = $1
+INSERT INTO
+    "paymentsrv".kakao (
+        tid,
+        status,
+        partner_order_id,
+        partner_user_id,
+        item_name,
+        quantity,
+        total_amount,
+        tax_free_amount,
+        created_at,
+        update_at
+    )
+VALUES ($1, 'READY', $2, $3, $4, $5, $6, $7, NOW(), NOW()) RETURNING tid
 `
 
-func (q *Queries) ApproveRequest(ctx context.Context, transactionID uuid.UUID) error {
-	_, err := q.db.ExecContext(ctx, approveRequest, transactionID)
+type CreateKakaoParams struct {
+	Tid            string `json:"tid"`
+	PartnerOrderID string `json:"partner_order_id"`
+	PartnerUserID  string `json:"partner_user_id"`
+	ItemName       string `json:"item_name"`
+	Quantity       int32  `json:"quantity"`
+	TotalAmount    int64  `json:"total_amount"`
+	TaxFreeAmount  int64  `json:"tax_free_amount"`
+}
+
+func (q *Queries) CreateKakao(ctx context.Context, arg CreateKakaoParams) (string, error) {
+	row := q.db.QueryRowContext(ctx, createKakao,
+		arg.Tid,
+		arg.PartnerOrderID,
+		arg.PartnerUserID,
+		arg.ItemName,
+		arg.Quantity,
+		arg.TotalAmount,
+		arg.TaxFreeAmount,
+	)
+	var tid string
+	err := row.Scan(&tid)
+	return tid, err
+}
+
+const getKakaoByOrderID = `-- name: GetKakaoByOrderID :one
+
+SELECT
+    tid, status, aid, partner_order_id, partner_user_id, item_name, quantity, total_amount, tax_free_amount, created_at, update_at, approved_at
+FROM "paymentsrv".kakao
+WHERE partner_order_id = $1
+`
+
+func (q *Queries) GetKakaoByOrderID(ctx context.Context, partnerOrderID string) (PaymentsrvKakao, error) {
+	row := q.db.QueryRowContext(ctx, getKakaoByOrderID, partnerOrderID)
+	var i PaymentsrvKakao
+	err := row.Scan(
+		&i.Tid,
+		&i.Status,
+		&i.Aid,
+		&i.PartnerOrderID,
+		&i.PartnerUserID,
+		&i.ItemName,
+		&i.Quantity,
+		&i.TotalAmount,
+		&i.TaxFreeAmount,
+		&i.CreatedAt,
+		&i.UpdateAt,
+		&i.ApprovedAt,
+	)
+	return i, err
+}
+
+const getKakaoByTID = `-- name: GetKakaoByTID :one
+
+SELECT
+    tid, status, aid, partner_order_id, partner_user_id, item_name, quantity, total_amount, tax_free_amount, created_at, update_at, approved_at
+FROM "paymentsrv".kakao
+WHERE tid = $1
+`
+
+func (q *Queries) GetKakaoByTID(ctx context.Context, tid string) (PaymentsrvKakao, error) {
+	row := q.db.QueryRowContext(ctx, getKakaoByTID, tid)
+	var i PaymentsrvKakao
+	err := row.Scan(
+		&i.Tid,
+		&i.Status,
+		&i.Aid,
+		&i.PartnerOrderID,
+		&i.PartnerUserID,
+		&i.ItemName,
+		&i.Quantity,
+		&i.TotalAmount,
+		&i.TaxFreeAmount,
+		&i.CreatedAt,
+		&i.UpdateAt,
+		&i.ApprovedAt,
+	)
+	return i, err
+}
+
+const updateKakaoApprove = `-- name: UpdateKakaoApprove :exec
+
+UPDATE "paymentsrv".kakao
+SET
+    status = 'APPROVED',
+    aid = $2,
+    approved_at = $3,
+    update_at = NOW()
+WHERE tid = $1
+`
+
+type UpdateKakaoApproveParams struct {
+	Tid        string         `json:"tid"`
+	Aid        sql.NullString `json:"aid"`
+	ApprovedAt sql.NullTime   `json:"approved_at"`
+}
+
+func (q *Queries) UpdateKakaoApprove(ctx context.Context, arg UpdateKakaoApproveParams) error {
+	_, err := q.db.ExecContext(ctx, updateKakaoApprove, arg.Tid, arg.Aid, arg.ApprovedAt)
 	return err
 }
 
-const createRequest = `-- name: CreateRequest :one
+const updateKakaoStatus = `-- name: UpdateKakaoStatus :exec
 
-INSERT INTO
-    "payments".payment (
-        transaction_id,
-        status,
-        order_id,
-        user_id,
-        item_name,
-        item_quantity,
-        total_amount,
-        requested_at
-    )
-VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING transaction_id, status, order_id, user_id, item_name, item_quantity, total_amount, requested_at, approved_at
+UPDATE "paymentsrv".kakao
+SET
+    status = $1,
+    update_at = NOW()
+WHERE tid = $2
 `
 
-type CreateRequestParams struct {
-	TransactionID uuid.UUID `json:"transaction_id"`
-	Status        string    `json:"status"`
-	OrderID       string    `json:"order_id"`
-	UserID        string    `json:"user_id"`
-	ItemName      string    `json:"item_name"`
-	ItemQuantity  int32     `json:"item_quantity"`
-	TotalAmount   int32     `json:"total_amount"`
+type UpdateKakaoStatusParams struct {
+	Status string `json:"status"`
+	Tid    string `json:"tid"`
 }
 
-func (q *Queries) CreateRequest(ctx context.Context, arg CreateRequestParams) (PaymentsPayment, error) {
-	row := q.db.QueryRowContext(ctx, createRequest,
-		arg.TransactionID,
-		arg.Status,
-		arg.OrderID,
-		arg.UserID,
-		arg.ItemName,
-		arg.ItemQuantity,
-		arg.TotalAmount,
-	)
-	var i PaymentsPayment
-	err := row.Scan(
-		&i.TransactionID,
-		&i.Status,
-		&i.OrderID,
-		&i.UserID,
-		&i.ItemName,
-		&i.ItemQuantity,
-		&i.TotalAmount,
-		&i.RequestedAt,
-		&i.ApprovedAt,
-	)
-	return i, err
-}
-
-const getRequestByOrderID = `-- name: GetRequestByOrderID :one
-
-SELECT
-    transaction_id,
-    status,
-    order_id,
-    user_id,
-    item_name,
-    item_quantity,
-    total_amount,
-    requested_at,
-    approved_at
-FROM "payments".payment
-WHERE order_id = $1
-`
-
-func (q *Queries) GetRequestByOrderID(ctx context.Context, orderID string) (PaymentsPayment, error) {
-	row := q.db.QueryRowContext(ctx, getRequestByOrderID, orderID)
-	var i PaymentsPayment
-	err := row.Scan(
-		&i.TransactionID,
-		&i.Status,
-		&i.OrderID,
-		&i.UserID,
-		&i.ItemName,
-		&i.ItemQuantity,
-		&i.TotalAmount,
-		&i.RequestedAt,
-		&i.ApprovedAt,
-	)
-	return i, err
-}
-
-const getRequestByTransactionID = `-- name: GetRequestByTransactionID :one
-
-SELECT
-    transaction_id,
-    status,
-    order_id,
-    user_id,
-    item_name,
-    item_quantity,
-    total_amount,
-    requested_at,
-    approved_at
-FROM "payments".payment
-WHERE transaction_id = $1
-`
-
-func (q *Queries) GetRequestByTransactionID(ctx context.Context, transactionID uuid.UUID) (PaymentsPayment, error) {
-	row := q.db.QueryRowContext(ctx, getRequestByTransactionID, transactionID)
-	var i PaymentsPayment
-	err := row.Scan(
-		&i.TransactionID,
-		&i.Status,
-		&i.OrderID,
-		&i.UserID,
-		&i.ItemName,
-		&i.ItemQuantity,
-		&i.TotalAmount,
-		&i.RequestedAt,
-		&i.ApprovedAt,
-	)
-	return i, err
+func (q *Queries) UpdateKakaoStatus(ctx context.Context, arg UpdateKakaoStatusParams) error {
+	_, err := q.db.ExecContext(ctx, updateKakaoStatus, arg.Status, arg.Tid)
+	return err
 }

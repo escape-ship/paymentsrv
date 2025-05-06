@@ -1,11 +1,17 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"log/slog"
+	"os"
+
+	"github.com/spf13/viper"
+)
 
 type (
 	Config struct {
 		App      App      `mapstructure:"app"`
 		Database Database `mapstructure:"database"`
+		Kakao    Kakao    `mapstructure:"kakao"`
 	}
 
 	App struct {
@@ -15,23 +21,34 @@ type (
 	}
 
 	Database struct {
-		Host     string `mapstructure:"host"`
-		Port     int    `mapstructure:"port"`
-		User     string `mapstructure:"user"`
-		Password string `mapstructure:"password"`
-		DBName   string `mapstructure:"dbname"`
-		SSLMode  string `mapstructure:"sslmode"`
+		Host         string `mapstructure:"host"`          // DATABASE_HOST
+		Port         int    `mapstructure:"port"`          // DATABASE_PORT
+		User         string `mapstructure:"user"`          // DATABASE_USER
+		Password     string `mapstructure:"password"`      // DATABASE_PASSWORD
+		DataBaseName string `mapstructure:"database_name"` // DATABASE_DATABASE_NAME
+		SchemaName   string `mapstructure:"schema_name"`   // DATABASE_SCHEMA_NAME
+		SSLMode      string `mapstructure:"ssl_mode"`      // DATABASE_SSL_MODE
+	}
+
+	Kakao struct {
+		BaseURL   string `mapstructure:"base_url"`   // KAKAO_BASE_URL
+		SecretKey string `mapstructure:"secret_key"` // KAKAO_SECRET_KEY
+		CID       string `mapstructure:"cid"`        // KAKAO_CID
 	}
 )
 
-func NewConfig(path string) *viper.Viper {
+func New(path string) (*Config, error) {
 	vp := viper.New()
 	vp.SetConfigFile(path)
 	vp.AutomaticEnv()
-	return vp
-}
 
-func Load(vp *viper.Viper) (*Config, error) {
+	dir, err := os.Getwd()
+	if err != nil {
+		slog.Error("App: get current directory error", "error", err)
+		os.Exit(1)
+	}
+	slog.Info("App: current directory", "dir", dir)
+
 	if err := vp.ReadInConfig(); err != nil {
 		return nil, err
 	}

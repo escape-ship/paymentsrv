@@ -16,7 +16,7 @@ build:
 build_alone:
 	@echo "Building alone..."
 	@$(MAKE) linter-golangci
-	@go build -o bin/$(shell basename $(PWD)) ./cmd
+	@go build -tags migrate -o bin/$(shell basename $(PWD)) ./cmd
 
 proto_gen:
 	@echo "Generating proto..."

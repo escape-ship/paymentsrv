@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -9,52 +10,41 @@ import (
 
 	"github.com/escape-ship/paymentsrv/config"
 	"github.com/escape-ship/paymentsrv/internal/app"
+	"github.com/escape-ship/paymentsrv/pkg/postgres"
 )
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+
+	cfg, err := config.New("config.yaml")
+	if err != nil {
+		logger.Error("App: config load error", "error", err)
+		os.Exit(1)
+	}
+
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer cancel()
 
-	dir, err := os.Getwd()
+	db, err := postgres.New(makeDSN(cfg.Database))
 	if err != nil {
-		slog.Error("App: get current directory error", "error", err)
-		os.Exit(1)
-	}
-	slog.Info("App: current directory", "dir", dir)
-
-	vp := config.NewConfig(dir + "/config.yaml")
-	cfg, err := config.Load(vp)
-	if err != nil {
-		slog.Error("App: config load error", "error", err)
+		logger.Error("App: database connection error", "error", err)
 		os.Exit(1)
 	}
 
-	// Set up signal handling
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
-
-	app := app.New(cfg, ctx)
-
-	// Run application in a separate goroutine
-	errChan := make(chan error, 1)
-	go func() {
-		if err := app.Run(); err != nil {
-			slog.Error("App: run error", "error", err)
-			errChan <- err
-		}
-	}()
-
-	// Wait for shutdown signal or error
-	select {
-	case err := <-errChan:
-		slog.Error("App: application error", "error", err)
-		cancel()
-	case sig := <-quit:
-		slog.Info("App: received shutdown signal", "signal", sig)
-		cancel()
+	app := app.New(cfg, db)
+	if err := app.Run(ctx, logger); err != nil {
+		logger.Error("app stopped with error", "err", err)
 	}
+}
 
-	// Wait for actual graceful shutdown to complete
-	<-app.Done()
-	slog.Info("App: shutdown complete")
+// config.Database 값 사용
+func makeDSN(db config.Database) postgres.DBConnString {
+	return postgres.DBConnString(
+		fmt.Sprintf(
+			"postgres://%s:%s@%s:%d/%s?sslmode=%s&search_path=%s",
+			db.User, db.Password,
+			db.Host, db.Port,
+			db.DataBaseName, db.SSLMode, db.SchemaName,
+		),
+	)
 }

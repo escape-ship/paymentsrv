@@ -1,51 +1,48 @@
--- name: CreateRequest :one
+-- name: CreateKakao :one
 
 INSERT INTO
-    "payments".payment (
-        transaction_id,
+    "paymentsrv".kakao (
+        tid,
         status,
-        order_id,
-        user_id,
+        partner_order_id,
+        partner_user_id,
         item_name,
-        item_quantity,
+        quantity,
         total_amount,
-        requested_at
+        tax_free_amount,
+        created_at,
+        update_at
     )
-VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) RETURNING *;
+VALUES ($1, 'READY', $2, $3, $4, $5, $6, $7, NOW(), NOW()) RETURNING tid;
 
--- name: ApproveRequest :exec
+-- name: UpdateKakaoStatus :exec
 
-UPDATE "payments".payment
+UPDATE "paymentsrv".kakao
 SET
-    approved_at = NOW()
-WHERE transaction_id = $1;
+    status = $1,
+    update_at = NOW()
+WHERE tid = $2;
 
--- name: GetRequestByTransactionID :one
+-- name: UpdateKakaoApprove :exec
 
-SELECT
-    transaction_id,
-    status,
-    order_id,
-    user_id,
-    item_name,
-    item_quantity,
-    total_amount,
-    requested_at,
-    approved_at
-FROM "payments".payment
-WHERE transaction_id = $1;
+UPDATE "paymentsrv".kakao
+SET
+    status = 'APPROVED',
+    aid = $2,
+    approved_at = $3,
+    update_at = NOW()
+WHERE tid = $1;
 
--- name: GetRequestByOrderID :one
+-- name: GetKakaoByTID :one
 
 SELECT
-    transaction_id,
-    status,
-    order_id,
-    user_id,
-    item_name,
-    item_quantity,
-    total_amount,
-    requested_at,
-    approved_at
-FROM "payments".payment
-WHERE order_id = $1;
+    *
+FROM "paymentsrv".kakao
+WHERE tid = $1;
+
+-- name: GetKakaoByOrderID :one
+
+SELECT
+    *
+FROM "paymentsrv".kakao
+WHERE partner_order_id = $1;

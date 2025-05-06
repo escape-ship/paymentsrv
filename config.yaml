@@ -1,3 +1,18 @@
 app:
-  host: localhost
+  log_level: "info"
+  host: "0.0.0.0"
   port: 8080
+
+database:
+  host: "0.0.0.0"
+  port: 5432
+  user: "testuser"
+  password: "testpassword"
+  database_name: "escape"
+  schema_name: "payments"
+  ssl_mode: "disable"
+
+kakao:
+  base_url: "https://open-api.kakaopay.com/online/v1/payment"
+  secret_key: "DEVA79DCF8D9D1CF4DD88370E671DBC25A1422E9"
+  cid: "TC0ONETIME"
