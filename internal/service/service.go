@@ -175,6 +175,19 @@ func (s *PaymentServer) KakaoApprove(ctx context.Context, req *pb.KakaoApproveRe
 	}
 	slog.Info("KakaoApprove transaction committed successfully")
 
+	// Publish Kafka message to 'kakao-approve' topic
+	if s.kafka != nil {
+		producer := s.kafka.Producer()
+		if producer != nil {
+			msgValue := []byte(req.PartnerOrderId)
+			err := producer.Publish(ctx, []byte("kakao-approve"), msgValue)
+			if err != nil {
+				slog.Error("Failed to publish kakao-approve kafka message", "error", err)
+			}
+			slog.Info("Published kakao-approve message to Kafka", "partner_order_id", req.PartnerOrderId)
+		}
+	}
+
 	return &pb.KakaoApproveResponse{
 		PartnerOrderId: resp.PartnerOrderID,
 	}, nil
