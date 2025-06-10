@@ -10,20 +10,23 @@ import (
 
 	"github.com/escape-ship/paymentsrv/config"
 	"github.com/escape-ship/paymentsrv/internal/service"
+	"github.com/escape-ship/paymentsrv/pkg/kafka"
 	"github.com/escape-ship/paymentsrv/pkg/postgres"
 	pb "github.com/escape-ship/paymentsrv/proto/gen"
 	"google.golang.org/grpc"
 )
 
 type App struct {
-	cfg *config.Config
-	pg  postgres.DBEngine
+	cfg   *config.Config
+	pg    postgres.DBEngine
+	kafka kafka.Engine
 }
 
-func New(cfg *config.Config, pg postgres.DBEngine) *App {
+func New(cfg *config.Config, pg postgres.DBEngine, kafkaEngine kafka.Engine) *App {
 	return &App{
-		cfg: cfg,
-		pg:  pg,
+		cfg:   cfg,
+		pg:    pg,
+		kafka: kafkaEngine,
 	}
 }
 
@@ -31,7 +34,7 @@ func (a *App) Run(ctx context.Context, logger *slog.Logger) error {
 	server := grpc.NewServer()
 
 	// Register Services
-	pb.RegisterPaymentServiceServer(server, service.NewPaymentServer(a.cfg, a.pg))
+	pb.RegisterPaymentServiceServer(server, service.NewPaymentServer(a.cfg, a.pg, a.kafka))
 
 	host := a.cfg.App.Host
 	port := a.cfg.App.Port

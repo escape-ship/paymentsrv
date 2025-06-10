@@ -8,6 +8,7 @@ import (
 	"github.com/escape-ship/paymentsrv/config"
 	"github.com/escape-ship/paymentsrv/internal/infras/sqlc/postgresql"
 	"github.com/escape-ship/paymentsrv/internal/provider/kakao"
+	"github.com/escape-ship/paymentsrv/pkg/kafka"
 	"github.com/escape-ship/paymentsrv/pkg/postgres"
 	pb "github.com/escape-ship/paymentsrv/proto/gen"
 	"google.golang.org/grpc/codes"
@@ -19,10 +20,11 @@ type PaymentServer struct {
 	pb.UnimplementedPaymentServiceServer
 	kakaoClient *kakao.Client
 	pg          postgres.DBEngine
+	kafka       kafka.Engine
 }
 
 // NewPaymentServer creates a new payment service server
-func NewPaymentServer(cfg *config.Config, pg postgres.DBEngine) *PaymentServer {
+func NewPaymentServer(cfg *config.Config, pg postgres.DBEngine, kafkaEngine kafka.Engine) *PaymentServer {
 	kakaoConfig := kakao.Config{
 		BaseURL:   cfg.Kakao.BaseURL,
 		SecretKey: cfg.Kakao.SecretKey,
@@ -31,6 +33,7 @@ func NewPaymentServer(cfg *config.Config, pg postgres.DBEngine) *PaymentServer {
 	return &PaymentServer{
 		kakaoClient: kakao.NewClient(kakaoConfig),
 		pg:          pg,
+		kafka:       kafkaEngine,
 	}
 }
 

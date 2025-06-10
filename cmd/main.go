@@ -10,6 +10,7 @@ import (
 
 	"github.com/escape-ship/paymentsrv/config"
 	"github.com/escape-ship/paymentsrv/internal/app"
+	"github.com/escape-ship/paymentsrv/pkg/kafka"
 	"github.com/escape-ship/paymentsrv/pkg/postgres"
 )
 
@@ -31,7 +32,14 @@ func main() {
 		os.Exit(1)
 	}
 
-	app := app.New(cfg, db)
+	// Initialize Kafka engine
+	kafkaEngine := kafka.NewEngine(
+		[]string{"localhost:9092"}, // TODO: replace with cfg value if available
+		"payments",                 // TODO: replace with cfg value if available
+		"payments-group",           // TODO: replace with cfg value if available
+	)
+
+	app := app.New(cfg, db, kafkaEngine)
 	if err := app.Run(ctx, logger); err != nil {
 		logger.Error("app stopped with error", "err", err)
 	}
