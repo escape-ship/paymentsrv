@@ -34,9 +34,9 @@ func main() {
 
 	// Initialize Kafka engine
 	kafkaEngine := kafka.NewEngine(
-		[]string{"localhost:9092"}, // TODO: replace with cfg value if available
-		"payments",                 // TODO: replace with cfg value if available
-		"payments-group",           // TODO: replace with cfg value if available
+		[]string{"kafka:9092"}, // TODO: replace with cfg value if available
+		"payments",             // TODO: replace with cfg value if available
+		"payments-group",       // TODO: replace with cfg value if available
 	)
 
 	app := app.New(cfg, db, kafkaEngine)

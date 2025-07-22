@@ -10,7 +10,7 @@ import (
 	"github.com/escape-ship/paymentsrv/internal/provider/kakao"
 	"github.com/escape-ship/paymentsrv/pkg/kafka"
 	"github.com/escape-ship/paymentsrv/pkg/postgres"
-	pb "github.com/escape-ship/paymentsrv/proto/gen"
+	pb "github.com/escape-ship/protos/gen"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

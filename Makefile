@@ -18,6 +18,10 @@ build_alone:
 	@$(MAKE) linter-golangci
 	@go build -tags migrate -o bin/$(shell basename $(PWD)) ./cmd
 
+pushall:
+	@docker build -t ghcr.io/escape-ship/paymentsrv:latest .
+	@docker push ghcr.io/escape-ship/paymentsrv:latest
+
 proto_gen:
 	@echo "Generating proto..."
 	@cd proto && \
