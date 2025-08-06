@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"encoding/json"
 	"log/slog"
 
 	"github.com/escape-ship/paymentsrv/config"
@@ -20,11 +21,11 @@ type PaymentServer struct {
 	pb.UnimplementedPaymentServiceServer
 	kakaoClient *kakao.Client
 	pg          postgres.DBEngine
-	kafka       kafka.Engine
+	kafka       kafka.Publisher
 }
 
 // NewPaymentServer creates a new payment service server
-func NewPaymentServer(cfg *config.Config, pg postgres.DBEngine, kafkaEngine kafka.Engine) *PaymentServer {
+func NewPaymentServer(cfg *config.Config, pg postgres.DBEngine, kafkaEngine kafka.Publisher) *PaymentServer {
 	kakaoConfig := kakao.Config{
 		BaseURL:   cfg.Kakao.BaseURL,
 		SecretKey: cfg.Kakao.SecretKey,
@@ -176,17 +177,17 @@ func (s *PaymentServer) KakaoApprove(ctx context.Context, req *pb.KakaoApproveRe
 	slog.Info("KakaoApprove transaction committed successfully")
 
 	// Publish Kafka message to 'kakao-approve' topic
-	if s.kafka != nil {
-		producer := s.kafka.Producer()
-		if producer != nil {
-			msgValue := []byte(req.PartnerOrderId)
-			err := producer.Publish(ctx, []byte("kakao-approve"), msgValue)
-			if err != nil {
-				slog.Error("Failed to publish kakao-approve kafka message", "error", err)
-			}
-			slog.Info("Published kakao-approve message to Kafka", "partner_order_id", req.PartnerOrderId)
-		}
+	key := []byte(req.PartnerOrderId)
+	jsonResp, err := json.Marshal(resp)
+	if err != nil {
+		slog.Error("Failed to marshal KakaoApprove response", "error", err)
+		return nil, status.Error(codes.Internal, "failed to marshal response")
 	}
+	if err := s.kafka.Publish(ctx, key, jsonResp); err != nil {
+		slog.Error("Failed to publish KakaoApprove message to Kafka", "error", err)
+		return nil, status.Error(codes.Internal, "failed to publish Kafka message")
+	}
+	slog.Info("Published kakao-approve message to Kafka", "partner_order_id", req.PartnerOrderId)
 
 	return &pb.KakaoApproveResponse{
 		PartnerOrderId: resp.PartnerOrderID,

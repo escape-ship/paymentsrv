@@ -19,10 +19,10 @@ import (
 type App struct {
 	cfg   *config.Config
 	pg    postgres.DBEngine
-	kafka kafka.Engine
+	kafka kafka.Publisher
 }
 
-func New(cfg *config.Config, pg postgres.DBEngine, kafkaEngine kafka.Engine) *App {
+func New(cfg *config.Config, pg postgres.DBEngine, kafkaEngine kafka.Publisher) *App {
 	return &App{
 		cfg:   cfg,
 		pg:    pg,

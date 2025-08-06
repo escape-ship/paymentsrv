@@ -32,11 +32,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Initialize Kafka engine
-	kafkaEngine := kafka.NewEngine(
+	// Initialize Kafka consumer
+	kafkaEngine := kafka.NewPublisher(
 		[]string{"kafka:9092"}, // TODO: replace with cfg value if available
-		"payments",             // TODO: replace with cfg value if available
-		"payments-group",       // TODO: replace with cfg value if available
+		"payment-succeeded",    // TODO: replace with cfg value if available
 	)
 
 	app := app.New(cfg, db, kafkaEngine)

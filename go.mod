@@ -3,7 +3,7 @@ module github.com/escape-ship/paymentsrv
 go 1.24.5
 
 require (
-	github.com/escape-ship/protos v1.0.2
+	github.com/escape-ship/protos v1.0.5
 	github.com/golang-migrate/migrate/v4 v4.18.3
 	github.com/segmentio/kafka-go v0.4.48
 	github.com/spf13/viper v1.20.1
