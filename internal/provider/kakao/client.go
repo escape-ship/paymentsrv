@@ -3,6 +3,7 @@ package kakao
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -24,9 +25,19 @@ type Client struct {
 
 // NewClient creates a new Kakao Pay client
 func NewClient(config Config) *Client {
+	// Create HTTP client with TLS verification disabled for testing
+	transport := &http.Transport{
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: true,
+		},
+	}
+	httpClient := &http.Client{
+		Transport: transport,
+	}
+	
 	return &Client{
 		config:     config,
-		httpClient: &http.Client{},
+		httpClient: httpClient,
 	}
 }
 
