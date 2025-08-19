@@ -17,6 +17,9 @@ build_alone:
 	@$(MAKE) linter-golangci
 	@go build -tags migrate -o bin/$(shell basename $(PWD)) ./cmd
 
+docker:
+	@docker build -t ghcr.io/escape-ship/paymentsrv:latest .
+
 pushall:
 	@docker build -t ghcr.io/escape-ship/paymentsrv:latest .
 	@docker push ghcr.io/escape-ship/paymentsrv:latest
